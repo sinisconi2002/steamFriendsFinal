@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+{% load static %}
+{% block content %}
+	<html lang="en">
+	<head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+        <meta charset="utf-8">
+        <title>{{ post.title }}</title>
+        <meta name="description" content="Xlight Bootstrap Responsive HTML5/CSS3 Template">
+        <meta name="author" content="Andsolutions.it">
+        <meta name="description" content="">
+
+         <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'css/bootstrap-theme.min.css' %}" rel="stylesheet">
+        <link href="{% static 'css/animate.min.css' %}" rel="stylesheet" >
+        <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+        <link href="{% static 'css/prettyPhoto.css' %}" rel="stylesheet">
+
+        <link href="{% static 'css/theme.css' %}" rel="stylesheet">
+        <link href="{% static 'css/responsive.css' %}" rel="stylesheet">
+        <link href="{% static 'css/colors/blue.css' %}" rel="stylesheet" class="colors">
+
+
+        <!-- Google Font -->
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'>
+
+        <!-- Favicons -->
+        <link rel="shortcut icon" href="{% static 'images/pngguru.com.png' %}">
+        <link rel="apple-touch-icon" href="{% static 'images/ico/apple-touch-icon.png' %}">
+        <link rel="apple-touch-icon" sizes="72x72" href="{% static 'images/ico/apple-touch-icon-72.png' %}">
+        <link rel="apple-touch-icon" sizes="114x114" href="{% static 'images/ico/apple-touch-icon-114.png' %}">
+        <link rel="apple-touch-icon" sizes="144x144" href="{% static 'images/ico/apple-touch-icon-144.png' %}">
+</head>
+
+<body data-spy="scroll" data-target="#mynav" data-offset="85">
+
+<header>
+
+<!-- Bootstrap Menu -->
+<div id="navigation">
+	<div class="navbar-wrapper">
+		<nav class="navbar-inverse navbar-static-top" role="navigation">
+			<div class="container">
+				<div class="row">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="#"></a>
+					</div>
+					<div id="mynav" class="navbar-collapse collapse">
+						<ul class="nav navbar-nav main-nav-list">
+							<li><a href="/static#home">HOME</a></li>
+							<li><a href="/static#about">ABOUT US</a></li>
+							<li><a href="/static#team">TEAM</a></li>
+							<li><a href="/static#works">GALLERY</a></li>
+							<li><a href="/static#tickets">TICKETS</a></li>
+							<li><a href="/static#news">NEWS</a></li>
+							<li><a href="/static#contacts">Contact</a></li>
+                            {% if user.is_authenticated %}
+                                {% if user.is_superuser %}
+                                    <li><a href="/admin/">Admin</a></li>
+                                {% endif %}
+                                    <li><a href="/logout/">Logout</a></li>
+                            {% else %}
+                                <li><a href="/login/">log in</a></li>
+                                <li><a href="/register/">register</a></li>
+                            {% endif %}
+                            <li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</nav>
+	</div>
+</div>
+<!-- End Bootstrap Menu -->
+
+</header>
+
+<section id="blog-title" class="page-title">
+	<div class="row">
+		<div class="container">
+			<div class="section-title wow fadeInDown">
+				<h1><span>News & Events</span></h1>
+			</div>
+			<h1 class="wow fadeInUp">Last Events from Our Blog</h1>
+		</div>
+			</div>
+</section>
+
+<section id="blog-block" class="blog single-post">
+	<!-- Main Content start-->
+		<div class="container">
+			<div class="row">
+				<!-- Post Block-->
+				<div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
+				    <article>
+						<div class="entry-header">
+							<div class="blog-image">
+								<a href="#"><img height="400px" width="900px" alt="" src="{{ post.image.url }}" class="img-responsive"></a>
+							</div>
+							<div class="post-date">
+								 <h2>{{ post.date_posted.day }}<span>{{ post.date_posted|date:'F' }}</span></h2>
+							</div>
+						</div>
+						<div class="entry-content">
+							<h3 class="entry-title main-color">
+                                {{ post.title}}
+							</h3>
+							<ul class="entry-meta">
+							<li><i class="fa fa-user"></i> By: {{ post.author }}</li>
+							</ul>
+                            {{post.content|safe}}
+							<br>
+							<br>
+                        </div>
+						<ul class="pager">
+                        {% if user.is_authenticated %}
+                            {% if user.is_superuser %}
+						        <li class="previous"><a href="{% url 'updatepost' post.id %}">Update post</a></li>
+                                <a class="btn" href={% url 'all' %}>All posts</a>
+                                <li class="next"><a href="{% url 'deletepost' post.id %}">Delete post</a></li>
+                            {% else %}
+                                <a class="btn" href={% url 'all' %}>All posts</a>
+                            {% endif %}
+                        {% endif %}
+						</ul>
+                    <hr>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    </article>
+				</div>
+			</div>
+		</div>
+</section>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/retina.min.js"></script>
+	<script src="js/jquery.easing.min.js"></script>
+	<script src="js/wow.min.js"></script>
+	<script src="js/waypoints.min.js"></script>
+	<script src="js/jquery.countTo.js"></script>
+	<script src="js/jquery.mixitup.min.js"></script>
+	<script src="js/jquery.prettyPhoto.js"></script>
+	<script src="js/jquery.knob.min.js"></script>
+	<script src="js/jquery.validate.min.js"></script>
+	<script src="switcher/switcher.js"></script>
+	<script src="js/custom.js"></script>
+
+
+</body>
+</html>
+{% endblock content %}

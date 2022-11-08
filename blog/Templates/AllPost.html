@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+	<head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+        <meta charset="utf-8">
+        <title>Steam Friends</title>
+        <meta name="description" content="">
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'css/bootstrap-theme.min.css' %}" rel="stylesheet">
+        <link href="{% static 'css/animate.min.css' %}" rel="stylesheet" >
+        <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+        <link href="{% static 'css/prettyPhoto.css' %}" rel="stylesheet">
+
+        <link href="{% static 'css/theme.css' %}" rel="stylesheet">
+        <link href="{% static 'css/responsive.css' %}" rel="stylesheet">
+        <link href="{% static 'css/colors/blue.css' %}" rel="stylesheet" class="colors">
+
+
+        <!-- Google Font -->
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'>
+
+        <!-- Favicons -->
+        <link rel="shortcut icon" href="{% static 'images/pngguru.com.png' %}">
+        <link rel="apple-touch-icon" href="{% static 'images/ico/apple-touch-icon.png' %}">
+        <link rel="apple-touch-icon" sizes="72x72" href="{% static 'images/ico/apple-touch-icon-72.png' %}">
+        <link rel="apple-touch-icon" sizes="114x114" href="{% static 'images/ico/apple-touch-icon-114.png' %}">
+        <link rel="apple-touch-icon" sizes="144x144" href="{% static 'images/ico/apple-touch-icon-144.png' %}">
+    </head>
+    <body data-spy="scroll" data-target="#mynav" data-offset="85">
+        <div class="navbar">
+            <nav class="navbar-inverse navbar-static-top" role="navigation">
+                <div class="container">
+                    <div class="row">
+                        <div id="mynav" class="navbar-collapse collapse">
+                            <ul class="nav navbar-nav main-nav-list">
+                                <li><a href="/">HOME</a></li>
+                                {% if user.is_authenticated %}
+                                    {% if user.is_superuser %}
+                                        <li><a href="/admin/">Admin</a></li>
+                                        <li><a href="{% url 'createpost' %}">POST</a></li>
+                                    {% endif %}
+                                        <li><a href="/logout/">Logout</a></li>
+                                {% else %}
+                                    <li><a href="/login/">log in</a></li>
+                                    <li><a href="/register/">register</a></li>
+                                {% endif %}
+                                <li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="col align-self-center">
+            {% block content %}
+            {% for post in posts%}
+                <div class="col-lg-6 col-sm-6">
+                    <div class="news-content wow fadeInLeft" data-wow-duration="1s" data-wow-delay="300ms">
+                        <div class="entry-header">
+                            <div class="blog-image">
+                                 <a href="{% url 'postdetailed' post.id %}"><img height="400px" width="900px" alt="" src={{ post.image.url }}></a>
+                            </div>
+                            <div class="post-date">
+                                <h2>{{ post.date_posted.day }}<span>{{ post.date_posted|date:'F' }}</span></h2>
+                            </div>
+                        </div>
+
+                        <div class="entry-content">
+                            <h3 class="entry-title">
+                                <a href="{% url 'postdetailed' post.id %}">{{ post.title }} </a>
+                            </h3>
+                            <p>{{post.content|safe|truncatewords:50 }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            {% endblock %}
+        </div>
+    </body>
+</html>
